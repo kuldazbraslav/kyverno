@@ -13,12 +13,6 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
-const (
-	LabelKeyKind      = "kyverno.io/generated-by-kind"
-	LabelKeyNamespace = "kyverno.io/generated-by-namespace"
-	LabelKeyName      = "kyverno.io/generated-by-name"
-)
-
 type Object interface {
 	GetName() string
 	GetNamespace() string
@@ -93,9 +87,13 @@ func managedBy(labels map[string]string) {
 }
 
 func generatedBy(labels map[string]string, triggerResource unstructured.Unstructured) {
-	checkGeneratedBy(labels, LabelKeyKind, triggerResource.GetKind())
-	checkGeneratedBy(labels, LabelKeyNamespace, triggerResource.GetNamespace())
-	checkGeneratedBy(labels, LabelKeyName, triggerResource.GetName())
+	keyKind := "kyverno.io/generated-by-kind"
+	keyNamespace := "kyverno.io/generated-by-namespace"
+	keyName := "kyverno.io/generated-by-name"
+
+	checkGeneratedBy(labels, keyKind, triggerResource.GetKind())
+	checkGeneratedBy(labels, keyNamespace, triggerResource.GetNamespace())
+	checkGeneratedBy(labels, keyName, triggerResource.GetName())
 }
 
 func checkGeneratedBy(labels map[string]string, key, value string) {
