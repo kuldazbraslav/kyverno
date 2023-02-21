@@ -34,7 +34,7 @@ func GetRoleRef(rbLister rbacv1listers.RoleBindingLister, crbLister rbacv1lister
 	}
 	rs, crs := getRoleRefByRoleBindings(roleBindings, request.UserInfo)
 	// clusterrolebindings
-	clusterroleBindings, err := crbLister.List(labels.Everything())
+	clusterroleBindings, err := crbLister.List(labels.NewSelector())
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to list clusterrolebindings: %v", err)
 	}
